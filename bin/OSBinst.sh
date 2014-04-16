@@ -6,6 +6,11 @@
 #
 # USAGE:
 # ${SCRIPT} [OPTION]
+#
+# $HeadURL: $
+# $LastChangedBy: cgwong $
+# $LastChangedDate: $
+# $LastChangedRevision: $
 # 
 # LOG:
 # yyyy/mm/dd [user] - [notes]

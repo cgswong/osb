@@ -10,6 +10,11 @@
 #       is not, then no permanent change in the user's environment
 #       can take place.
 #
+# $HeadURL: $
+# $LastChangedBy: cgwong $
+# $LastChangedDate: $
+# $LastChangedRevision: $
+#
 # LOG:
 # yyyy/mm/dd [user] - [version] [notes]
 # 2014/01/07 cgwong - Creation.
