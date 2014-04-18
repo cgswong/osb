@@ -31,17 +31,17 @@
 #                     Integrate patching into installation (via silent response file).
 # 2014/03/25 cgwong - [v1.4.1] Included inventory update for WL and JVM.
 #                     Updated runInstaller and patching logic
+# 2014/04/18 cgwong: [v1.4.2] Various minor code improvements.
 ######################################################
 
 SCRIPT=`basename $0`
 SCRIPT_PATH=$(dirname $SCRIPT)
 SETUP_FILE=${SCRIPT_PATH}/OSBenv-inst.sh
 
-. ${SETUP_FILE}
+##. ${SETUP_FILE}
 
 # -- Variables -- #
 PID=$$
-LOGFILE=${LOG_DIR}/`echo $SCRIPT | awk -F"." '{print $1}'`.log
 ERR=1     # Error status
 SUC=0     # Success status
 
@@ -71,10 +71,10 @@ show_usage ()
 { # Show script usage
   echo "
  ${SCRIPT} - Linux shell script to install Oracle Service Bus 11g software.
-  This script will install, in order of installation:
+  Specifically, the following steps are done:
   
-  1. The specified OSB 11g software release
-  2. Any patches as specified to be applied to OSB
+  1. Install the specified OSB 11g software release
+  2. Apply any patches as specified to OSB installation
   
   The default environment setup file, ${SETUP_FILE}, is assumed to be in the same directory
   as this script. The -f parameter can be used to specify another file or location. It is 
@@ -122,13 +122,13 @@ create_silent_install_files()
 install_osb ()
 { # Install OSB software
   # Check if software has already been extracted
-  if [ -d ${INSTALL_DIR} ] && [ -f ${INSTALL_DIR}/runInstaller ] ; then
+  if [ -f ${INSTALL_DIR}/runInstaller ]; then
     msg install_osb INFO "Running software installation."
   else                          # Need to install software
     msg install_osb INFO "Extracting software..."
     unzip -oq ${OSB_FILE} -d ${SLIB_DIR}
   fi
-  ${INSTALL_DIR}/runInstaller -jreLoc ${JAVA_HOME} -silent -responseFile ${OSB_RSP_FILE} -invPtrLoc ${ORAINV_PTR_FILE} ORACLE_HOME_NAME="OraHome1_osb11g" -waitforcompletion
+  ${INSTALL_DIR}/runInstaller -jreLoc ${JAVA_HOME} -silent -responseFile ${OSB_RSP_FILE} -invPtrLoc ${ORAINV_PTR_FILE} ORACLE_HOME_NAME=${OSB_HOME_NAME} -waitforcompletion
   
   # Attach WLS component and JDK to Oracle inventory
   msg install_osb INFO "Attaching WLS and JVM homes to Oracle inventory."
@@ -175,11 +175,10 @@ while [ $# -gt 0 ] ; do
   -f)   # Different OSB setup file
     SETUP_FILE=$2
     if [ -z "$SETUP_FILE" ] || [ ! -f "$SETUP_FILE" ]; then
-      msg MAIN ERROR "A valid file is required for the -f parameter."
+      echo "ERROR: Invalid -f option."
       show_usage
       exit $ERR
     fi
-    . ${SETUP_FILE}
     shift ;;
   -h)   # Print help and exit
     show_usage
@@ -190,6 +189,11 @@ while [ $# -gt 0 ] ; do
   esac
   shift
 done
+
+# Setup environment
+. ${SETUP_FILE}
+
+LOGFILE=${LOG_DIR}/`echo $SCRIPT | awk -F"." '{print $1}'`.log
 
 RUN_DT=`date "+%Y%m%d-%H%M%S"`
 STG_DIR=${STG_DIR}/install-${RUN_DT}
