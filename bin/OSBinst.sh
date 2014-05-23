@@ -7,10 +7,10 @@
 # USAGE:
 # ${SCRIPT} [OPTION]
 #
-# $HeadURL: $
-# $LastChangedBy: cgwong $
-# $LastChangedDate: $
-# $LastChangedRevision: $
+# $HeadURL$
+# $LastChangedBy$
+# $LastChangedDate$
+# $LastChangedRevision$
 # 
 # LOG:
 # yyyy/mm/dd [user] - [notes]

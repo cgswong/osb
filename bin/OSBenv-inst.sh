@@ -10,10 +10,10 @@
 #       is not, then no permanent change in the user's environment
 #       can take place.
 #
-# $HeadURL: $
-# $LastChangedBy: cgwong $
-# $LastChangedDate: $
-# $LastChangedRevision: $
+# $HeadURL$
+# $LastChangedBy$
+# $LastChangedDate$
+# $LastChangedRevision$
 #
 # LOG:
 # yyyy/mm/dd [user] - [notes]
